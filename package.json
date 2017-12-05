@@ -1,0 +1,23 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "bamazon sql",
+  "main": "bamazon.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dfarrenk/bamazon.git"
+  },
+  "author": "David Farrenkopf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dfarrenk/bamazon/issues"
+  },
+  "homepage": "https://github.com/dfarrenk/bamazon#readme",
+  "dependencies": {
+    "inquirer": "^4.0.1",
+    "mysql": "^2.15.0"
+  }
+}
