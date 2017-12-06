@@ -22,6 +22,7 @@ connection.connect(function(err) {
 });
 
 function afterConnection() {
+    //Print product table.
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
         // instantiate
@@ -34,17 +35,11 @@ function afterConnection() {
         for (let i in res) {
             table.push(
                 [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity]
-                // ['First value', 'Second value'], ['First value', 'Second value']
             );
         }
-
-
         console.log(table.toString());
 
         start();
-
-        // console.log(res);
-        // connection.end();
     });
 }
 
@@ -96,16 +91,7 @@ function start() {
                             if (err) throw err;
                             connection.end();
                         });
-
                 }
             });
-
-            // based on their answer, either call the bid or the post functions
-            // if (answer.postOrBid.toUpperCase() === "POST") {
-            //     postAuction();
-            // }
-            // else {
-            //     bidAuction();
-            // }
         });
 }
