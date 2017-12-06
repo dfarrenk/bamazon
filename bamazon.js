@@ -60,7 +60,7 @@ function start() {
                 if (isNaN(value) === false) {
                     return true;
                 }
-                console.log("Please enter a number.");
+                console.log("Please enter a valid number.");
                 return false;
             }
         }, {
@@ -83,10 +83,21 @@ function start() {
                     console.log("We don't have that many in stock.");
                 }
                 else {
-                    console.log("ItemID:" + answer.itemID + ", Quantity: " + answer.quantity + "Total: $" + (answer.quantity * res[0].price));
-                }
+                    console.log("ItemID:" + answer.itemID + ", Quantity: " + answer.quantity + ", Total: $" + (answer.quantity * res[0].price));
+                    var newQuantity = res[0].stock_quantity - answer.quantity;
+                    connection.query("UPDATE products SET ? WHERE ?", [{
+                                stock_quantity: newQuantity
+                            },
+                            {
+                                item_id: answer.itemID
+                            }
+                        ],
+                        function(err, res) {
+                            if (err) throw err;
+                            connection.end();
+                        });
 
-                connection.end();
+                }
             });
 
             // based on their answer, either call the bid or the post functions
