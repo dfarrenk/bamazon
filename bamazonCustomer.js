@@ -1,7 +1,7 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
 var Table = require('cli-table');
-var maxID = 10;
+var maxID;
 
 //Database connection
 var connection = mysql.createConnection({
@@ -71,7 +71,7 @@ function start() {
             type: "input",
             message: "How many?",
             validate: function(value) {
-                if (isNaN(value) === false) {
+                if (value % 1 === 0) {
                     return true;
                 }
                 console.log(" Please enter a number.");
@@ -84,6 +84,7 @@ function start() {
 
                 if (answer.quantity > res[0].stock_quantity) {
                     console.log("We don't have that many in stock.");
+                    connection.end();
                 }
                 else {
                     console.log("ItemID:" + answer.itemID + ", Quantity: " + answer.quantity + ", Total: $" + (answer.quantity * res[0].price));

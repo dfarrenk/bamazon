@@ -1,6 +1,7 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
 var Table = require('cli-table');
+var maxID;
 
 //Database connection
 var connection = mysql.createConnection({
@@ -102,13 +103,20 @@ function printLow() {
 
 //Add to Inventory
 function addInventory() {
+    var query = "SELECT item_id FROM products WHERE item_id=(SELECT max(item_id) FROM products);";
+    //Get max ID for input validation.
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+        maxID = res[0].item_id;
+    });
+
     inquirer
         .prompt([{
             name: "itemID",
             type: "input",
             message: "Enter ItemID: ",
             validate: function(value) {
-                if (isNaN(value) === false) {
+                if (value % 1 === 0 && value >= 1 && value <= maxID) {
                     return true;
                 }
                 console.log("Please enter a valid number.");
@@ -119,7 +127,7 @@ function addInventory() {
             type: "input",
             message: "Add how many?",
             validate: function(value) {
-                if (isNaN(value) === false) {
+                if (value % 1 === 0) {
                     return true;
                 }
                 console.log("Please enter a number.");
