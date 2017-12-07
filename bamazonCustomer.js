@@ -1,6 +1,7 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
 var Table = require('cli-table');
+var maxID = 10;
 
 //Database connection
 var connection = mysql.createConnection({
@@ -22,6 +23,13 @@ connection.connect(function(err) {
 });
 
 function afterConnection() {
+    var query = "SELECT item_id FROM products WHERE item_id=(SELECT max(item_id) FROM products);";
+    //Get max ID for input validation.
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+        maxID = res[0].item_id;
+    });
+
     //Print product table.
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
@@ -52,10 +60,10 @@ function start() {
             type: "input",
             message: "Enter the ItemID of the item you would like to purchase:",
             validate: function(value) {
-                if (isNaN(value) === false) {
+                if (value % 1 === 0 && value >= 1 && value <= maxID) {
                     return true;
                 }
-                console.log("Please enter a valid number.");
+                console.log(" Please enter a valid number.");
                 return false;
             }
         }, {
@@ -66,7 +74,7 @@ function start() {
                 if (isNaN(value) === false) {
                     return true;
                 }
-                console.log("Please enter a number.");
+                console.log(" Please enter a number.");
                 return false;
             }
         }])
