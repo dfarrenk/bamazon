@@ -27,4 +27,5 @@ Manager view presents a list with 4 options.
 ![Add to Inventory](https://i.imgur.com/A1GiIXM.png "Add to Inventory")
 
 'Add New Product' asks a series of prompts and then inserts a new row into the table with the given information.
+
 ![Add New Product](https://i.imgur.com/CrXCEGm.png "Add New Product")
